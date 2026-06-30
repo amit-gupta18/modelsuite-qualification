@@ -1,5 +1,7 @@
 ﻿import { useState } from 'react';
 import { updateTask, fetchTalents } from '../../api/tasks';
+import RichTextEditor from './RichTextEditor';
+import { normalizeDescription } from '../../utils/stripHtml';
 
 const STATUS_OPTIONS = ['Open', 'Claimed', 'Submitted', 'Approved', 'Rejected'];
 const inputCls = 'w-full bg-bg-input border border-border rounded-lg px-3.5 py-2.5 text-sm text-text-primary outline-none placeholder:text-[#4e4a6e] focus:border-primary focus:ring-[3px] focus:ring-primary/15 transition-all font-sans resize-y';
@@ -24,7 +26,11 @@ const EditTaskModal = ({ task, onClose, onUpdated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await updateTask(task._id, { ...form, assignedTo: form.assignedTo || null });
+      const { data } = await updateTask(task._id, {
+        ...form,
+        description: normalizeDescription(form.description),
+        assignedTo: form.assignedTo || null,
+      });
       onUpdated(data);
       onClose();
     } catch (err) {
@@ -35,7 +41,7 @@ const EditTaskModal = ({ task, onClose, onUpdated }) => {
   return (
     <div className="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[200] p-6"
       onClick={onClose}>
-      <div className="bg-bg-card border border-border rounded-xl w-full max-w-xl shadow-[0_32px_80px_rgba(0,0,0,0.6)] animate-modal-in"
+      <div className="bg-bg-card border border-border rounded-xl w-full max-w-2xl shadow-[0_32px_80px_rgba(0,0,0,0.6)] animate-modal-in"
         onClick={(e) => e.stopPropagation()}>
 
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
@@ -52,7 +58,10 @@ const EditTaskModal = ({ task, onClose, onUpdated }) => {
 
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>Description</label>
-            <textarea name="description" value={form.description} onChange={handleChange} rows={3} className={inputCls} />
+            <RichTextEditor
+              value={form.description}
+              onChange={(html) => setForm((p) => ({ ...p, description: html }))}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">

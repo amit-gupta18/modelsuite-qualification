@@ -439,6 +439,131 @@ input, select, textarea {
 /* Hidden file input */
 .file-input-hidden { display: none; }
 
+/* ─────────────────────────────────────────
+   Rich Text Editor (TipTap)
+───────────────────────────────────────── */
+.rich-text-editor {
+  border: 1px solid var(--color-border, rgba(255,255,255,0.09));
+  border-radius: 8px;
+  background: var(--color-bg-input, rgba(255,255,255,0.03));
+  overflow: hidden;
+}
+
+.rich-text-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+}
+
+.rich-text-toolbar-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: #9CA3AF;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.rich-text-toolbar-btn:hover {
+  background: rgba(255,255,255,0.06);
+  color: #E5E2E1;
+}
+
+.rich-text-toolbar-btn-active {
+  background: rgba(59,130,246,0.15);
+  border-color: rgba(59,130,246,0.35);
+  color: #60A5FA;
+}
+
+.rich-text-editor-content {
+  min-height: 120px;
+  padding: 12px 14px;
+  color: #E5E2E1;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  outline: none;
+}
+
+.rich-text-editor-content:focus {
+  outline: none;
+}
+
+.rich-text-editor-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #4e4a6e;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.rich-text-editor-content p {
+  margin: 0 0 0.5em;
+}
+
+.rich-text-editor-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-editor-content h2 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0.75em 0 0.35em;
+  color: #F0F0F0;
+}
+
+.rich-text-editor-content ul,
+.rich-text-editor-content ol {
+  margin: 0.35em 0;
+  padding-left: 1.4em;
+}
+
+.rich-text-editor-content blockquote {
+  margin: 0.5em 0;
+  padding-left: 0.75em;
+  border-left: 3px solid rgba(59,130,246,0.4);
+  color: #9CA3AF;
+}
+
+.rich-text-content p {
+  margin: 0 0 0.5em;
+}
+
+.rich-text-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-content h2 {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin: 0.6em 0 0.3em;
+  color: #E5E2E1;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin: 0.35em 0;
+  padding-left: 1.4em;
+}
+
+.rich-text-content blockquote {
+  margin: 0.5em 0;
+  padding-left: 0.75em;
+  border-left: 3px solid rgba(59,130,246,0.35);
+  color: #9CA3AF;
+}
+
+.rich-text-content strong {
+  font-weight: 600;
+  color: #E5E2E1;
+}
+
 /* Talent sidebar avatar */
 .avatar-talent {
   background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);

@@ -1,5 +1,7 @@
 ﻿import { useState } from 'react';
 import { createTask, fetchTalents } from '../../api/tasks';
+import RichTextEditor from './RichTextEditor';
+import { normalizeDescription } from '../../utils/stripHtml';
 
 const STATUS_OPTIONS = ['Open', 'Claimed', 'Submitted', 'Approved', 'Rejected'];
 
@@ -23,7 +25,11 @@ const CreateTaskModal = ({ onClose, onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await createTask({ ...form, assignedTo: form.assignedTo || undefined });
+      const { data } = await createTask({
+        ...form,
+        description: normalizeDescription(form.description),
+        assignedTo: form.assignedTo || undefined,
+      });
       onCreated(data);
       onClose();
     } catch (err) {
@@ -34,7 +40,7 @@ const CreateTaskModal = ({ onClose, onCreated }) => {
   return (
     <div className="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[200] p-6"
       onClick={onClose}>
-      <div className="bg-bg-card border border-border rounded-xl w-full max-w-xl shadow-[0_32px_80px_rgba(0,0,0,0.6)] animate-modal-in"
+      <div className="bg-bg-card border border-border rounded-xl w-full max-w-2xl shadow-[0_32px_80px_rgba(0,0,0,0.6)] animate-modal-in"
         onClick={(e) => e.stopPropagation()}>
 
         {/* Header */}
@@ -55,8 +61,10 @@ const CreateTaskModal = ({ onClose, onCreated }) => {
 
           <div className="flex flex-col gap-1.5">
             <label className={labelCls}>Description</label>
-            <textarea name="description" value={form.description} onChange={handleChange}
-              rows={3} placeholder="Describe the task deliverables..." className={inputCls} />
+            <RichTextEditor
+              value={form.description}
+              onChange={(html) => setForm((p) => ({ ...p, description: html }))}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
