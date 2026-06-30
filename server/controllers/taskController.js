@@ -41,6 +41,23 @@ const createTask = async (req, res) => {
   const { title, description, status, assignedTo, dueDate } = req.body;
 
   try {
+    if (dueDate) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) {
+        return res.status(400).json({ message: 'Due date must be in YYYY-MM-DD format' });
+      }
+
+      const today = new Date();
+      const todayStr = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0'),
+      ].join('-');
+
+      if (dueDate <= todayStr) {
+        return res.status(400).json({ message: 'Due date must be in the future' });
+      }
+    }
+
     const task = await Task.create({
       title,
       description,
